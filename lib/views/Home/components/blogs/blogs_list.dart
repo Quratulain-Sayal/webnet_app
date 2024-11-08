@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:webnet_app/components/responsive.dart';
 import 'package:webnet_app/const/constants.dart';
+//import 'package:webnet_app/const/constants.dart';
 import 'package:webnet_app/models/blog_model.dart';
 import 'package:webnet_app/views/Home/components/components.dart';
 import 'package:webnet_app/views/Home/components/sidemenu.dart';
@@ -105,46 +106,44 @@ class _BlogListState extends State<BlogList> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator()); // Loader while fetching
             } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}')); // Error handling
+              return Center(child: SnackBar(content: Text('Error: ${snapshot.error}'), backgroundColor: Colors.red,)); // Error handling
             } else if (_filteredBlogs.isEmpty) {
-              return Center(child: Text('No blogs found.')); // No data case
+              return Center(child: SnackBar(content: Text('No blogs found.'), backgroundColor: Colors.red,)); // No data case
             }
-            return SingleChildScrollView(
+            return Padding(
+              padding: const EdgeInsets.all(defaultpadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xfff4f6f8),
-                    hintText: "Search Blogs", hintStyle: GoogleFonts.lato(color: Colors.black),
-                    prefixIcon: Icon(Icons.search, color: Colors.black),
-                    suffixIcon: _searchController.text.isNotEmpty
-                        ? IconButton(
-                            icon: Icon(Icons.clear, color: Colors.black),
-                            onPressed: _clearSearch,
-                          )
-                        : null,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    contentPadding: EdgeInsets.symmetric(vertical: 14.0),
-                  ),
-                  onChanged: _filterBlogs
-                ),
-              ),
+                  Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xfff4f6f8),
+                        hintText: "Search Blogs", hintStyle: GoogleFonts.lato(color: Colors.black),
+                        prefixIcon: Icon(Icons.search, color: Colors.black),
+                        suffixIcon: _searchController.text.isNotEmpty
+                            ? IconButton(
+                                icon: Icon(Icons.clear, color: Colors.black),
+                                onPressed: _clearSearch,
+                              )
+                            : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide.none,
                         ),
-                  
+                        contentPadding: EdgeInsets.symmetric(vertical: 14.0),
+                      ),
+                      onChanged: _filterBlogs
+                    ),
+                  ),
+                  SizedBox(height: screenHeight*0.02,),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+                          padding: const EdgeInsets.all(defaultpadding),
                           child: Text(
                             'Blogs',
                             style: GoogleFonts.lato(
@@ -154,17 +153,16 @@ class _BlogListState extends State<BlogList> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                    
+                                            
                           ),
                         ),
-                       
+                       SizedBox(height: screenHeight*0.01,),
                         Expanded(child: 
                         SingleChildScrollView(
                           child: Padding(
-                               padding: const EdgeInsets.symmetric(horizontal: defaultpadding2, 
-                               vertical: defaultpadding3),
+                            padding: const EdgeInsets.all(defaultpadding),
                             child: SizedBox(
-                                width: 1200,
+                             
                                 child: Theme(
                                   data: ThemeData.light().copyWith(
                                       cardColor: Theme.of(context).canvasColor),
@@ -185,7 +183,7 @@ class _BlogListState extends State<BlogList> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'Latest Blogs',
+                                          ' Blogs',
                                           style: GoogleFonts.lato(
                                             textStyle: const TextStyle(
                                               fontSize: 18,
@@ -202,7 +200,7 @@ class _BlogListState extends State<BlogList> {
                                             minimumSize: const Size(20, 40),
                                           ),
                                           child: Text(
-                                            'Add Blogs',
+                                            'New',
                                             style: GoogleFonts.lato(
                                               textStyle: const TextStyle(
                                                 fontSize: 16,
@@ -230,26 +228,7 @@ class _BlogListState extends State<BlogList> {
                           ),
                         )),
                        
-                     Container(
-                         height: screenHeight*0.05,
-              decoration: const BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide.none,
-                      left: BorderSide.none,
-                      right: BorderSide.none),
-                  color: Colors.white),
-              child: Center(
-                child: Text(
-                  '2024 © Webnet Pakistan.',
-                  style: GoogleFonts.lato(
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF797979),
-                    ),
-                  ),
-                ),
-              ),
-                        ),    
+                   
                 ],
               ),
             );

@@ -1,5 +1,4 @@
 import 'dart:convert';
-//import 'package:adaptive_scrollbar/adaptive_scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_icons/flutter_svg_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -80,7 +79,7 @@ class _CustomerListState extends State<CustomerList> {
   @override
   Widget build(BuildContext context) {
     //  double screenWidth = MediaQuery.of(context).size.width;
-    //double screenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         drawer: Sidemenu(),
@@ -115,17 +114,17 @@ class _CustomerListState extends State<CustomerList> {
                         CircularProgressIndicator()); // Loader while fetching
               } else if (snapshot.hasError) {
                 return Center(
-                    child: Text('Error: ${snapshot.error}')); // Error handling
+                    child: SnackBar(content: Text(' ${snapshot.error}'), backgroundColor: Colors.red,)); // Error handling
               } else if (_filteredCustomers.isEmpty) {
                 return const Center(
-                    child: Text('No Customers found.')); // No data case
+                    child: SnackBar(content: Text('No Customers found.'), backgroundColor: Colors.red,)); // No data case
               }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
+              return Padding(
+                padding: const EdgeInsets.all(defaultpadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
                       elevation: 2,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
@@ -154,118 +153,120 @@ class _CustomerListState extends State<CustomerList> {
                           ),
                           onChanged: _filterCustomers),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 25),
-                    child: Text(
-                      'Customers',
-                      style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          color: Color(0xFF797979),
-                          fontWeight: FontWeight.bold,
+                    SizedBox(height: screenHeight*0.02,),
+                    Padding(
+                      padding: const EdgeInsets.all(
+                          defaultpadding),
+                      child: Text(
+                        'Customers',
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            color: Color(0xFF797979),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: defaultpadding2, vertical: defaultpadding3),
-                      child: SizedBox(
-                       width: 1200,
-                        child: Theme(
-                          data: ThemeData.light().copyWith(cardColor: Theme.of(context).canvasColor),
-                          child: PaginatedDataTable(
-                            headingRowColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.grey[300]!),
-                            columns: [
-                              DataColumn(label: Text('Name', style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold,
-                                      color: Color(0xFF797979))))),
-                              DataColumn(label: Text('Email', style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold,
-                                      color: Color(0xFF797979))))),
-                              DataColumn(label: Text('Phone', style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold,
-                                      color: Color(0xFF797979))))),
-                              DataColumn(label: Text('Address', style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold,
-                                      color: Color(0xFF797979))))),
-                              DataColumn(label: Text('City', style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold,
-                                      color: Color(0xFF797979))))),
-                              DataColumn(label: Text('Postal', style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold,
-                                      color: Color(0xFF797979))))),
-                              DataColumn(label: Text('Country', style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold,
-                                      color: Color(0xFF797979))))),
-                              DataColumn(label: Text('Updated at', style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold,
-                                      color: Color(0xFF797979))))),
-                            ],
-                            source: CustomerDataTableSource(_filteredCustomers),
-                            header: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                      'Customers List',
-                                      style: GoogleFonts.lato(
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Color(0xFF505458),
-                        fontWeight: FontWeight.bold,
-                      ),
-                                      ),
-                                ),
-                                ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF188AE2),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4)),
-                      minimumSize: const Size(20, 40),
-                                      ),
-                                      child: Text(
-                      'New',
-                      style: GoogleFonts.lato(
+                    SizedBox(height: screenHeight*0.01,),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(defaultpadding),
+                        child: SizedBox(
+                     
+                          child: Theme(
+                            data: ThemeData.light().copyWith(cardColor: Theme.of(context).canvasColor),
+                            child: PaginatedDataTable(
+                              headingRowColor: MaterialStateColor.resolveWith(
+                                  (states) => Colors.grey[300]!),
+                              columns: [
+                                DataColumn(label: Text('Name', style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.bold,
+                                        color: Color(0xFF797979))))),
+                                DataColumn(label: Text('Email', style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.bold,
+                                        color: Color(0xFF797979))))),
+                                DataColumn(label: Text('Phone', style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.bold,
+                                        color: Color(0xFF797979))))),
+                                DataColumn(label: Text('Address', style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.bold,
+                                        color: Color(0xFF797979))))),
+                                DataColumn(label: Text('City', style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.bold,
+                                        color: Color(0xFF797979))))),
+                                DataColumn(label: Text('Postal', style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.bold,
+                                        color: Color(0xFF797979))))),
+                                DataColumn(label: Text('Country', style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.bold,
+                                        color: Color(0xFF797979))))),
+                                DataColumn(label: Text('Updated at', style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.bold,
+                                        color: Color(0xFF797979))))),
+                              ],
+                              source: CustomerDataTableSource(_filteredCustomers),
+                              header: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                        'Customers List',
+                                        style: GoogleFonts.lato(
                         textStyle: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
+                          fontSize: 18,
+                          color: Color(0xFF505458),
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
-                                      ),
-                                ),
-                              ],
+                                        ),
+                                  ),
+                                  ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF188AE2),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
+                        minimumSize: const Size(20, 40),
+                                        ),
+                                        child: Text(
+                        'New',
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                                        ),
+                                  ),
+                                ],
+                              ),
+                              columnSpacing: 40,
+                              horizontalMargin: 40,
+                              rowsPerPage: _rowsPerPage,
+                              availableRowsPerPage: const [5, 10, 20, 50, 100],
+                              onRowsPerPageChanged: (value) {
+                                setState(() {
+                                  _rowsPerPage = value ?? PaginatedDataTable.defaultRowsPerPage;
+                                });
+                              },
+                              showFirstLastButtons: false,
                             ),
-                            columnSpacing: 40,
-                            horizontalMargin: 40,
-                            rowsPerPage: _rowsPerPage,
-                            availableRowsPerPage: const [5, 10, 20, 50, 100],
-                            onRowsPerPageChanged: (value) {
-                              setState(() {
-                                _rowsPerPage = value ?? PaginatedDataTable.defaultRowsPerPage;
-                              });
-                            },
-                            showFirstLastButtons: true,
                           ),
                         ),
                       ),
                     ),
                   ),
+                  ],
                 ),
-                ],
               );
             }),
         bottomNavigationBar: Responsive.isMobile(context)

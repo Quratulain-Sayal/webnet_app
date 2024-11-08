@@ -54,7 +54,7 @@ class _SliderImageScreenState extends State<SliderImageScreen> {
     return SafeArea(
       child: SingleChildScrollView( // Ensure scrollability if content exceeds screen height
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: defaultpadding2, vertical: defaultpadding3),
+          padding: const EdgeInsets.all(defaultpadding),
           child: Column( // Column will expand as content increases
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

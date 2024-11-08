@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_icons/flutter_svg_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webnet_app/components/responsive.dart';
+import 'package:webnet_app/const/constants.dart';
 import 'package:webnet_app/views/Dashboard/components/Recentorders.dart';
 import 'package:webnet_app/views/Dashboard/components/weeklysales.dart';
 import 'package:webnet_app/views/Home/components/components.dart';
@@ -85,6 +86,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
+      double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
         child: Scaffold(
       backgroundColor: Color(0xfff4f6f8),
@@ -115,10 +117,10 @@ class _HomepageState extends State<Homepage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(defaultpadding),
+          child: Column(children: [
+            Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
@@ -146,166 +148,166 @@ class _HomepageState extends State<Homepage> {
                 },
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Good Morning$admin,',
-                      style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+            SizedBox(height: screenHeight*0.02,),
+            Padding(
+              padding: const EdgeInsets.all(defaultpadding),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Good Morning$admin,',
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Let's begin to create amazaing content !",
-                      style: GoogleFonts.lato(
-                        fontSize: 16,
-                        color: Color(0xFF752376),
-                        fontWeight: FontWeight.w500,
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Let's begin to create amazaing content !",
+                        style: GoogleFonts.lato(
+                          fontSize: 16,
+                          color: Color(0xFF752376),
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                  children: List.generate(statisticsList.length, (index) {
-                final item = statisticsList[index];
-                return GestureDetector(
-                  onTap: () => _toggleIconVisibility(index), // Handle tap
-                  child: Container(
-                    height: 120,
-                    width: 300, // Adjust the width according to your design
-                    margin:
-                        const EdgeInsets.only(right: 10), // Space between items
-                    child: Card(
-                      elevation: 2,
-                      color: Colors.white,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ListTile(
-                            leading: Image.asset(
-                              item['image'],
-                              width: 40,
-                              height: 40,
-                            ),
-                            title: Text(
-                              item['title'],
-                              style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                  color: Color(0xff337ab7),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            subtitle: Text(
-                              item['value'],
-                              style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                  color: item['color'],
-                                  fontSize: 24,
-                                ),
-                              ),
-                            ),
-                            trailing: AnimatedOpacity(
-                              opacity: _iconVisible[index]
-                                  ? 1.0
-                                  : 0.0, // Toggle opacity
-                              duration: const Duration(
-                                  milliseconds: 200), // Animation duration
-                              child: InkWell(
-                                child: Image.asset(
-                                  'assets/images/next-button.png', // Your trailing icon
-                                  height: 30,
-                                  width: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              })),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-         const  Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 30),
-            child:  Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Weekly Sales",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF752376),
-                  ),
-                ),
-                Icon(
-                  Icons.open_in_new,
-                  color: Color(0xFF337AB7),
-                ),
-              ],
-            ),
-          ),
-          const Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20, vertical: 15
-            ),
-            child: WeeklySales(),
-          ),
-         const  SizedBox(height: 10,),
-         const  Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Recent Orders  ",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF752376)),
-                  ),
-                  Icon(
-                    Icons.open_in_new,
-                    color: Color(0xFF337AB7),
+                    ],
                   ),
                 ],
               ),
-          ),
-        
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: RecentOrders(),
-          ),
-          const SizedBox(height: 20),
-        
-        ]),
+            ),
+            SizedBox(height: screenHeight*0.01,),
+            Padding(
+              padding: const EdgeInsets.all(defaultpadding),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                    children: List.generate(statisticsList.length, (index) {
+                  final item = statisticsList[index];
+                  return GestureDetector(
+                    onTap: () => _toggleIconVisibility(index), // Handle tap
+                    child: Container(
+                      height: 120,
+                      width: 300, // Adjust the width according to your design
+                      margin:
+                          const EdgeInsets.only(right: 10), // Space between items
+                      child: Card(
+                        elevation: 2,
+                        color: Colors.white,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ListTile(
+                              leading: Image.asset(
+                                item['image'],
+                                width: 40,
+                                height: 40,
+                              ),
+                              title: Text(
+                                item['title'],
+                                style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                    color: Color(0xff337ab7),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              subtitle: Text(
+                                item['value'],
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                    color: item['color'],
+                                    fontSize: 24,
+                                  ),
+                                ),
+                              ),
+                              trailing: AnimatedOpacity(
+                                opacity: _iconVisible[index]
+                                    ? 1.0
+                                    : 0.0, // Toggle opacity
+                                duration: const Duration(
+                                    milliseconds: 200), // Animation duration
+                                child: InkWell(
+                                  child: Image.asset(
+                                    'assets/images/next-button.png', // Your trailing icon
+                                    height: 30,
+                                    width: 30,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                })),
+              ),
+            ),
+             SizedBox(
+              height: screenHeight*0.01
+            ),
+          const  Padding(
+             padding: EdgeInsets.all(defaultpadding),
+             child: Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Text(
+                   "Weekly Sales",
+                   style: TextStyle(
+                     fontSize: 18,
+                     fontWeight: FontWeight.bold,
+                     color: Color(0xFF752376),
+                   ),
+                 ),
+                 Icon(
+                   Icons.open_in_new,
+                   color: Color(0xFF337AB7),
+                 ),
+               ],
+             ),
+           ),
+           const  Padding(
+              padding: const EdgeInsets.all(defaultpadding),
+              child: WeeklySales(),
+            ),
+             SizedBox(height: screenHeight*0.01),
+          const  Padding(
+             padding: const EdgeInsets.all(defaultpadding),
+             child: const Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 children: [
+                   Text(
+                     "Recent Orders  ",
+                     style: TextStyle(
+                         fontSize: 18,
+                         fontWeight: FontWeight.bold,
+                         color: Color(0xFF752376)),
+                   ),
+                   Icon(
+                     Icons.open_in_new,
+                     color: Color(0xFF337AB7),
+                   ),
+                 ],
+               ),
+           ),
+          
+            const Padding(
+              padding: const EdgeInsets.all(defaultpadding),
+              child: RecentOrders(),
+            ),
+             SizedBox(height: screenHeight*0.02),
+          
+          ]),
+        ),
       ),
       bottomNavigationBar: Responsive.isMobile(context)
           ? BottomNavigationBar(

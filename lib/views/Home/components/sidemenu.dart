@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webnet_app/views/Home/components/blogs/blogs_list.dart';
+import 'package:webnet_app/views/Home/components/customers/add_customer.dart';
 import 'package:webnet_app/views/Home/components/customers/customer_list.dart';
 import 'package:webnet_app/views/Home/components/pages/pages_list.dart';
 import 'package:webnet_app/views/Home/components/products/add_products.dart';
@@ -131,7 +132,12 @@ class Sidemenu extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => CustomerList()));
                   }),
-                  DrawerSubListTile(title: 'Add Customers', press: () {}),
+                  DrawerSubListTile(title: 'Add Customers', press: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddCustomer()));
+                  }),
                 ],
               ),
               Divider(),

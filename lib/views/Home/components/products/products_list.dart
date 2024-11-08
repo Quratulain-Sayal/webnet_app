@@ -21,7 +21,11 @@ class _ProductListState extends State<ProductsList> {
   List<products_model.Data> _allProducts = []; // Original data from API
   final TextEditingController _searchController = TextEditingController();
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-
+ void _clearSearch() {
+    setState(() {
+      _searchController.clear();
+    });
+  }
   @override
   void initState() {
     super.initState();
@@ -100,30 +104,46 @@ class _ProductListState extends State<ProductsList> {
                         CircularProgressIndicator()); // Loader while fetching
               } else if (snapshot.hasError) {
                 return Center(
-                    child: Text('Error: ${snapshot.error}')); // Error handling
+                    child: Text(' ${snapshot.error}'), ); // Error handling
               } else if (_filteredProducts.isEmpty) {
                 return Center(
-                    child: Text('No Products found.')); // No data case
+                    child:  Text('No Products found.'), ); // No data case
               }
 
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.all(defaultpadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextField(
+                   Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    child: TextField(
                       controller: _searchController,
-                      decoration: const InputDecoration(
-                        labelText: 'Search Products',
-                        suffixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xfff4f6f8),
+                        hintText: "Search Products", hintStyle: GoogleFonts.lato(color: Colors.black),
+                        prefixIcon: Icon(Icons.search, color: Colors.black),
+                        suffixIcon: _searchController.text.isNotEmpty
+                            ? IconButton(
+                                icon: Icon(Icons.clear, color: Colors.black),
+                                onPressed: _clearSearch,
+                              )
+                            : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.symmetric(vertical: 14.0),
                       ),
-                      onChanged: _filterProducts, // Use the method directly
+                      onChanged: _filterProducts
                     ),
+                                   ),
                     SizedBox(height: screenHeight * 0.02),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 12),
+                      padding: const EdgeInsets.all(defaultpadding),
                       child: Text(
                         'Products',
                         style: GoogleFonts.lato(
@@ -135,153 +155,145 @@ class _ProductListState extends State<ProductsList> {
                         ),
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.02),
+                    SizedBox(height: screenHeight * 0.01),
                     Expanded(
                         child: SingleChildScrollView(
-                      child: SizedBox(
-                        // width: double.infinity,
-                        child: Theme(
-                          data: ThemeData.light().copyWith(
-                              cardColor: Theme.of(context).canvasColor),
-                          child: PaginatedDataTable(
-                            headingRowColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.grey[300]!),
-                            columns: [
-                              DataColumn(
-                                  label: Text('Image',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                              DataColumn(
-                                  label: Text('Title',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                              DataColumn(
-                                  label: Text('Slug',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                              DataColumn(
-                                  label: Text('Brand',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                              DataColumn(
-                                  label: Text('SKU',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                              // DataColumn(label: Text('Role', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
-                              DataColumn(
-                                  label: Text('Weight',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                              DataColumn(
-                                  label: Text('Qunatity',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                              DataColumn(
-                                  label: Text('Price',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                              DataColumn(
-                                  label: Text('Active',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                              DataColumn(
-                                  label: Text('Created at',
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF797979))))),
-                            ],
-                            source: ProductDataTableSource(_filteredProducts),
-                            header: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Products',
-                                  style: GoogleFonts.lato(
-                                    textStyle: const TextStyle(
-                                      fontSize: 18,
-                                      color: Color(0xFF505458),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF188AE2),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4)),
-                                    minimumSize: const Size(20, 40),
-                                  ),
-                                  child: Text(
-                                    'Add Products',
+                      child: Padding(
+                        padding: const EdgeInsets.all(defaultpadding),
+                        child: SizedBox(
+                        
+                          child: Theme(
+                            data: ThemeData.light().copyWith(
+                                cardColor: Theme.of(context).canvasColor),
+                            child: PaginatedDataTable(
+                              headingRowColor: MaterialStateColor.resolveWith(
+                                  (states) => Colors.grey[300]!),
+                              columns: [
+                                DataColumn(
+                                    label: Text('Image',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                                DataColumn(
+                                    label: Text('Title',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                                DataColumn(
+                                    label: Text('Slug',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                                DataColumn(
+                                    label: Text('Brand',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                                DataColumn(
+                                    label: Text('SKU',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                                // DataColumn(label: Text('Role', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
+                                DataColumn(
+                                    label: Text('Weight',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                                DataColumn(
+                                    label: Text('Qunatity',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                                DataColumn(
+                                    label: Text('Price',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                                DataColumn(
+                                    label: Text('Active',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                                DataColumn(
+                                    label: Text('Created at',
+                                        style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF797979))))),
+                              ],
+                              source: ProductDataTableSource(_filteredProducts),
+                              header: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Products',
                                     style: GoogleFonts.lato(
                                       textStyle: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
+                                        fontSize: 18,
+                                        color: Color(0xFF505458),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF188AE2),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(4)),
+                                      minimumSize: const Size(20, 40),
+                                    ),
+                                    child: Text(
+                                      'New',
+                                      style: GoogleFonts.lato(
+                                        textStyle: const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              columnSpacing: 40,
+                              horizontalMargin: 40,
+                              rowsPerPage: _rowsPerPage,
+                              availableRowsPerPage: const [5, 10, 25, 50, 100],
+                              onRowsPerPageChanged: (value) {
+                                setState(() {
+                                  _rowsPerPage = value ??
+                                      PaginatedDataTable.defaultRowsPerPage;
+                                });
+                              },
+                              showFirstLastButtons:
+                                  false, // Enable first and last buttons
                             ),
-                            columnSpacing: 10,
-                            horizontalMargin: 10,
-                            rowsPerPage: _rowsPerPage,
-                            availableRowsPerPage: const [5, 10, 25, 50, 100],
-                            onRowsPerPageChanged: (value) {
-                              setState(() {
-                                _rowsPerPage = value ??
-                                    PaginatedDataTable.defaultRowsPerPage;
-                              });
-                            },
-                            showFirstLastButtons:
-                                false, // Enable first and last buttons
                           ),
                         ),
                       ),
                     )),
-                    SizedBox(height: screenHeight * 0.03),
-                    Divider(color: Colors.grey.withOpacity(0.3)),
-                    SizedBox(height: screenHeight * 0.01),
-                    Text(
-                      '2024 © Webnet Pakistan.',
-                      style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF797979),
-                        ),
-                      ),
-                    ),
+                   
                   ],
                 ),
               );

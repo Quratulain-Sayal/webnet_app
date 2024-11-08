@@ -6,6 +6,8 @@ import 'package:webnet_app/const/constants.dart';
 import 'package:webnet_app/views/Home/components/sliders/slider_image.dart';
 import 'package:webnet_app/views/Home/components/components.dart';
 import 'package:webnet_app/views/Home/components/sidemenu.dart';
+import 'package:webnet_app/views/Home/components/sliders/sliderslist.dart';
+import 'package:webnet_app/views/Home/home_screen.dart';
 
 class AddSliders extends StatefulWidget {
   const AddSliders({super.key});
@@ -51,101 +53,76 @@ class _AddSlidersState extends State<AddSliders> {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: defaultpadding2,
-                          vertical: defaultpadding3),
-                      child: Text(
-                        'Sliders',
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                            fontSize: heading,
-                            color: Color(0xFF797979),
-                            fontWeight: FontWeight.bold,
+        body: Padding(
+          padding: const EdgeInsets.all(defaultpadding),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                       Padding(
+                      padding: const EdgeInsets.all(defaultpadding),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "Add Sliders",
+                                style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF505458),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:const  EdgeInsets.symmetric(
-                          horizontal: defaultpadding2,
-                          vertical: defaultpadding3),
-                      child: Container(
-                        height: screenHeight * 0.20,
-                        width: screenWidth,
-                        child: Card(
-                          elevation: 1,
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(defaultpadding),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  'Name*',
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onDoubleTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: 
+                                  (context)=> Homepage()));
+                                },
+                                child: Image.asset(
+                                  'assets/images/home.png',
+                                  width: 18,
+                                  height: 18,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              SizedBox(width: screenWidth*0.01,),
+                              GestureDetector(
+                                onDoubleTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder:
+                                   (context)=> Sliderslist()));
+                                },
+                                child: Text(
+                                  "/  Sliders",
                                   style: GoogleFonts.lato(
                                     textStyle: const TextStyle(
-                                      fontSize: subheading,
-                                      color: Color(0xFF797979),
-                                    ),
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Container(
-                                  width: screenWidth * 0.80,
-                                  height: screenHeight * 0.10,
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                      label: Text(
-                                        'Slider Name',
-                                        style: GoogleFonts.lato(
-                                          textStyle:
-                                              const TextStyle(fontSize: heading
-                                                  // color: Color(0xFF797979),
-                                                  ),
-                                          //fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.blue.shade200),
-                                      ),
-                                      enabledBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0xFFe3e3e3),
-                                          width: 1.0,
-                                        ),
-                                      ),
+                                      fontSize: 16,
+                                      color: Color(0xFF505458),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                    SliderImageScreen(),
-                    SizedBox(height: screenHeight * 0.22),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: defaultpadding2,
-                          vertical: defaultpadding3),
-                      child: Container(
-                        height: screenHeight * 0.10,
-                        width: screenWidth * 1,
-                        child: Card(
+                      Padding(
+                        padding:const  EdgeInsets.all(
+                          defaultpadding),
+                        child: Container(
+                          height: screenHeight * 0.20,
+                          width: screenWidth,
+                          child: Card(
                             elevation: 1,
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
@@ -153,59 +130,124 @@ class _AddSlidersState extends State<AddSliders> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(defaultpadding),
-                              child: Row(
-                            
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xFF188AE2),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(1))),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Back',
-                                      style: GoogleFonts.lato(
-                                        textStyle: const TextStyle(
-                                          fontSize: subheading,
-                                          color: Colors.white,
+                                  Text(
+                                    'Name*',
+                                    style: GoogleFonts.lato(
+                                      textStyle: const TextStyle(
+                                        fontSize: subheading,
+                                        color: Color(0xFF797979),
+                                      ),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: screenWidth * 0.80,
+                                    height: screenHeight * 0.10,
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        label: Text(
+                                          'Slider Name',
+                                          style: GoogleFonts.lato(
+                                            textStyle:
+                                                const TextStyle(fontSize: heading
+                                                    // color: Color(0xFF797979),
+                                                    ),
+                                            //fontWeight: FontWeight.w600,
+                                          ),
                                         ),
-                                        fontWeight: FontWeight.w400,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.blue.shade200),
+                                        ),
+                                        enabledBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFe3e3e3),
+                                            width: 1.0,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: screenWidth * 0.03,
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xFF4bd396),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(1))),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Save',
-                                      style: GoogleFonts.lato(
-                                        textStyle: const TextStyle(
-                                          fontSize: subheading,
-                                          color: Colors.white,
-                                        ),
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  )
                                 ],
                               ),
-                            )),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                   
-                  ],
+                      SliderImageScreen(),
+                      SizedBox(height: screenHeight * 0.22),
+                      Padding(
+                        padding: const EdgeInsets.all(
+                            defaultpadding),
+                        child: Container(
+                          height: screenHeight * 0.10,
+                          width: screenWidth * 1,
+                          child: Card(
+                              elevation: 1,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(defaultpadding),
+                                child: Row(
+                              
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Color(0xFF188AE2),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(1))),
+                                      onPressed: () {},
+                                      child: Text(
+                                        'Back',
+                                        style: GoogleFonts.lato(
+                                          textStyle: const TextStyle(
+                                            fontSize: subheading,
+                                            color: Colors.white,
+                                          ),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: screenWidth * 0.03,
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Color(0xFF4bd396),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(1))),
+                                      onPressed: () {},
+                                      child: Text(
+                                        'Save',
+                                        style: GoogleFonts.lato(
+                                          textStyle: const TextStyle(
+                                            fontSize: subheading,
+                                            color: Colors.white,
+                                          ),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ),
+                     
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         bottomNavigationBar: Responsive.isMobile(context)
             ? BottomNavigationBar(

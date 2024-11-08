@@ -1,3 +1,4 @@
+
 class PagesModel {
   int? currentPage;
   List<Data>? data;
@@ -70,20 +71,21 @@ class Data {
   int? id;
   String? title;
   String? slug;
-  Null? isDefault;
+  int? isDefault;
   Null? meta;
-  int? isHome;
-  Null? showTitle;
-  int? sliderId;
-  String? headerImage;
-  Null? metaTitle;
+  String? metaTitle;
   Null? metaDesc;
   Null? metaKeywords;
-  Seo? seo;
-  String? customCss;
-  int? isStore;
   String? createdAt;
   String? updatedAt;
+  Seo? seo;
+  Null? sliderId;
+  Null? headerImage;
+  String? customCss;
+  Null? isStore;
+  int? isHome;
+  int? isActive;
+  Null? deletedAt;
 
   Data(
       {this.id,
@@ -91,18 +93,19 @@ class Data {
       this.slug,
       this.isDefault,
       this.meta,
-      this.isHome,
-      this.showTitle,
-      this.sliderId,
-      this.headerImage,
       this.metaTitle,
       this.metaDesc,
       this.metaKeywords,
+      this.createdAt,
+      this.updatedAt,
       this.seo,
+      this.sliderId,
+      this.headerImage,
       this.customCss,
       this.isStore,
-      this.createdAt,
-      this.updatedAt});
+      this.isHome,
+      this.isActive,
+      this.deletedAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -110,18 +113,19 @@ class Data {
     slug = json['slug'];
     isDefault = json['is_default'];
     meta = json['meta'];
-    isHome = json['is_home'];
-    showTitle = json['show_title'];
-    sliderId = json['slider_id'];
-    headerImage = json['header_image'];
     metaTitle = json['meta_title'];
     metaDesc = json['meta_desc'];
     metaKeywords = json['meta_keywords'];
-    seo = json['seo'] != null ? new Seo.fromJson(json['seo']) : null;
-    customCss = json['custom_css'];
-    isStore = json['is_store'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    seo = json['seo'] != null ? new Seo.fromJson(json['seo']) : null;
+    sliderId = json['slider_id'];
+    headerImage = json['header_image'];
+    customCss = json['custom_css'];
+    isStore = json['is_store'];
+    isHome = json['is_home'];
+    isActive = json['is_active'];
+    deletedAt = json['deleted_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -131,32 +135,34 @@ class Data {
     data['slug'] = this.slug;
     data['is_default'] = this.isDefault;
     data['meta'] = this.meta;
-    data['is_home'] = this.isHome;
-    data['show_title'] = this.showTitle;
-    data['slider_id'] = this.sliderId;
-    data['header_image'] = this.headerImage;
     data['meta_title'] = this.metaTitle;
     data['meta_desc'] = this.metaDesc;
     data['meta_keywords'] = this.metaKeywords;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     if (this.seo != null) {
       data['seo'] = this.seo!.toJson();
     }
+    data['slider_id'] = this.sliderId;
+    data['header_image'] = this.headerImage;
     data['custom_css'] = this.customCss;
     data['is_store'] = this.isStore;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['is_home'] = this.isHome;
+    data['is_active'] = this.isActive;
+    data['deleted_at'] = this.deletedAt;
     return data;
   }
 }
 
 class Seo {
   String? showMeta;
+  String? showCanonical;
   String? showOg;
   String? showTwitter;
   String? metaTitle;
-  String? metaKeywords;
+  Null? metaKeywords;
   String? metaDescription;
-  String? canonical;
+  List<String>? canonical;
   String? ogTitle;
   String? ogUrl;
   Null? ogType;
@@ -168,10 +174,11 @@ class Seo {
   String? twitterImage;
   String? twitterDescription;
   Null? scripts;
-  String? showCanonical;
+  String? showBreadcrumb;
 
   Seo(
       {this.showMeta,
+      this.showCanonical,
       this.showOg,
       this.showTwitter,
       this.metaTitle,
@@ -189,16 +196,17 @@ class Seo {
       this.twitterImage,
       this.twitterDescription,
       this.scripts,
-      this.showCanonical});
+      this.showBreadcrumb});
 
   Seo.fromJson(Map<String, dynamic> json) {
     showMeta = json['show_meta'];
+    showCanonical = json['show_canonical'];
     showOg = json['show_og'];
     showTwitter = json['show_twitter'];
     metaTitle = json['meta_title'];
     metaKeywords = json['meta_keywords'];
     metaDescription = json['meta_description'];
-    canonical = json['canonical'];
+    canonical = json['canonical'].cast<String>();
     ogTitle = json['og_title'];
     ogUrl = json['og_url'];
     ogType = json['og_type'];
@@ -210,12 +218,13 @@ class Seo {
     twitterImage = json['twitter_image'];
     twitterDescription = json['twitter_description'];
     scripts = json['scripts'];
-    showCanonical = json['show_canonical'];
+    showBreadcrumb = json['show_breadcrumb'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['show_meta'] = this.showMeta;
+    data['show_canonical'] = this.showCanonical;
     data['show_og'] = this.showOg;
     data['show_twitter'] = this.showTwitter;
     data['meta_title'] = this.metaTitle;
@@ -233,7 +242,8 @@ class Seo {
     data['twitter_image'] = this.twitterImage;
     data['twitter_description'] = this.twitterDescription;
     data['scripts'] = this.scripts;
-    data['show_canonical'] = this.showCanonical;
+    data['show_breadcrumb'] = this.showBreadcrumb;
     return data;
   }
 }
+

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_icons/flutter_svg_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webnet_app/const/constants.dart';
+import 'package:webnet_app/views/Home/components/components.dart';
 
 //import 'package:webnet_app/views/Dashboard/components/header.dart';
 
@@ -21,22 +23,32 @@ class _AddProductsState extends State<AddProducts> {
  
     return SafeArea(
       child: Scaffold(
-        drawer: Sidemenu(),
+       drawer: Sidemenu(),
         appBar: AppBar(
-          backgroundColor: const Color(0xFF770099),
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Color(0xff782572),
           actions: const [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-              //  Notifications(),
-                SizedBox(width: 10),
-                //ProfileCard(),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: SvgIcon(
+                    icon: SvgIconData('assets/images/notification.svg'),
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                ),
+                const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: ProfileDropdown())
               ],
-            )
+            ),
           ],
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: defaultpadding2, vertical: defaultpadding2),
+            padding: const EdgeInsets.all(defaultpadding),
             child: Column(
               crossAxisAlignment:
                   CrossAxisAlignment.start, // Ensure proper alignment

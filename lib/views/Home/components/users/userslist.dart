@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg_icons/flutter_svg_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:webnet_app/components/responsive.dart';
+import 'package:webnet_app/const/constants.dart';
 import 'package:webnet_app/models/user_model.dart';
+import 'package:webnet_app/views/Home/components/components.dart';
 //import 'package:webnet_app/views/Dashboard/components/header.dart';
 import 'package:webnet_app/views/Home/components/sidemenu.dart';
+import 'package:webnet_app/views/Home/components/users/create_user.dart';
 
 class Userslist extends StatefulWidget {
   const Userslist({Key? key}) : super(key: key);
@@ -20,7 +24,13 @@ class _UserslistState extends State<Userslist> {
   List<Data> _allUsers = []; // Original data from API
   List<Data> _filteredUsers = []; // Filtered data to display
   final TextEditingController _searchController = TextEditingController();
+ int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
 
+  void _clearSearch() {
+    setState(() {
+      _searchController.clear();
+    });
+  }
   @override
   void initState() {
     super.initState();
@@ -77,15 +87,25 @@ class _UserslistState extends State<Userslist> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        drawer: const Sidemenu(),
+       drawer: Sidemenu(),
         appBar: AppBar(
-          backgroundColor: const Color(0xFF770099),
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Color(0xff782572),
           actions: const [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-              //  Notifications(),
-                SizedBox(width: 10),
-               // ProfileCard(),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: SvgIcon(
+                    icon: SvgIconData('assets/images/notification.svg'),
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                ),
+                const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: ProfileDropdown())
               ],
             ),
           ],
@@ -96,25 +116,46 @@ class _UserslistState extends State<Userslist> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
+              return Center(child: SnackBar(content:  Text(': ${snapshot.error}'), backgroundColor: Colors.red,));
             } else if (snapshot.hasData && _allUsers.isNotEmpty) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.all(defaultpadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextField(
-                      controller: _searchController,
-                      decoration: const InputDecoration(
-                        labelText: 'Search users',
-                        suffixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: _filterUsers, // Use the method directly
+                   
+                  Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: TextField(
+                          controller: _searchController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Color(0xfff4f6f8),
+                            hintText: "Search Users",
+                            hintStyle: GoogleFonts.lato(color: Colors.black),
+                            prefixIcon:
+                                Icon(Icons.search, color: Colors.black),
+                            suffixIcon: _searchController.text.isNotEmpty
+                                ? IconButton(
+                                    icon:const  Icon(Icons.clear,
+                                        color: Colors.black),
+                                    onPressed: _clearSearch,
+                                  )
+                                : null,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 14.0),
+                          ),
+                          onChanged: _filterUsers),
                     ),
-                    SizedBox(height: screenHeight * 0.02),
+                    SizedBox(height: screenHeight*0.02,),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      padding: const EdgeInsets.all(defaultpadding),
                       child: Text(
                         'Users',
                         style: GoogleFonts.lato(
@@ -126,79 +167,81 @@ class _UserslistState extends State<Userslist> {
                         ),
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.02),
+                    SizedBox(height: screenHeight * 0.01),
                     Expanded(
                       child: SingleChildScrollView(
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Theme(
-                            data: ThemeData.light().copyWith(
-                                cardColor: Theme.of(context).canvasColor),
-                            child: PaginatedDataTable(
-                              headingRowColor: MaterialStateColor.resolveWith((states) => Colors.grey[300]!),
-                              columns: [
-                                DataColumn(label: Text('ID', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
-                                DataColumn(label: Text('First Name', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
-                                DataColumn(label: Text('Last Name', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
-                                DataColumn(label: Text('Email', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
-                                DataColumn(label: Text('Phone', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
-                                DataColumn(label: Text('Role', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
-                                DataColumn(label: Text('Created At', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
-                              ],
-                              source: UserDataTableSource(_filteredUsers), // Use filtered users
-                              header: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'User List',
-                                    style: GoogleFonts.lato(
-                                      textStyle: const TextStyle(
-                                        fontSize: 18,
-                                        color: Color(0xFF505458),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF188AE2),
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                      minimumSize: const Size(20, 40),
-                                    ),
-                                    child: Text(
-                                      'Add Users',
+                        child: Padding(
+                          padding: const EdgeInsets.all(defaultpadding),
+                          child: SizedBox(
+                                            
+                            child: Theme(
+                              data: ThemeData.light().copyWith(
+                                  cardColor: Theme.of(context).canvasColor),
+                              child: PaginatedDataTable(
+                                headingRowColor: MaterialStateColor.resolveWith((states) => Colors.grey[300]!),
+                                columns: [
+                                  DataColumn(label: Text('ID', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
+                                  DataColumn(label: Text('First Name', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
+                                  DataColumn(label: Text('Last Name', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
+                                  DataColumn(label: Text('Email', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
+                                  DataColumn(label: Text('Phone', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
+                                  DataColumn(label: Text('Role', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
+                                  DataColumn(label: Text('Created At', style: GoogleFonts.lato(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF797979))))),
+                                ],
+                                source: UserDataTableSource(_filteredUsers), // Use filtered users
+                                header: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'User List',
                                       style: GoogleFonts.lato(
                                         textStyle: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
+                                          fontSize: 18,
+                                          color: Color(0xFF505458),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(context, 
+                                        MaterialPageRoute(builder: (context)=> CreateUser()));
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(0xFF188AE2),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                                        minimumSize: const Size(20, 40),
+                                      ),
+                                      child: Text(
+                                        'New',
+                                        style: GoogleFonts.lato(
+                                          textStyle: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                columnSpacing: 40,
+                                horizontalMargin: 40,
+                                rowsPerPage: _rowsPerPage,
+                              availableRowsPerPage: const [5, 10, 20, 50, 100],
+                              onRowsPerPageChanged: (value) {
+                                setState(() {
+                                  _rowsPerPage = value ?? PaginatedDataTable.defaultRowsPerPage;
+                                });
+                              },// Dynamic rowsPerPage
+                                showFirstLastButtons: false, // Enable first and last buttons
                               ),
-                              columnSpacing: 40,
-                              horizontalMargin: 40,
-                              rowsPerPage: _filteredUsers.length < 10 ? _filteredUsers.length : 10, // Dynamic rowsPerPage
-                              showFirstLastButtons: false, // Enable first and last buttons
                             ),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.03),
-                    Divider(color: Colors.grey.withOpacity(0.3)),
-                    SizedBox(height: screenHeight * 0.01),
-                    Text(
-                      '2024 © Webnet Pakistan.',
-                      style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                          fontSize: 16, color: Color(0xFF797979),
-                        ),
-                      ),
-                    ),
+                    
                   ],
                 ),
               );
@@ -209,37 +252,34 @@ class _UserslistState extends State<Userslist> {
         ),
         bottomNavigationBar: Responsive.isMobile(context)
             ? BottomNavigationBar(
-                backgroundColor: const Color(0xFFF4F6F8),
+                backgroundColor: Color(0xfff4f6f8),
                 items: [
                   BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      "assets/side nav icons/dashboard-layout-svgrepo-com.svg",
-                      height: 18,
-                      width: 18,
-                      colorFilter: const ColorFilter.mode(
-                          Color(0xFF782572), BlendMode.srcIn),
+                    icon: Image.asset(
+                      "assets/images/dashboard.png",
+                      height: 20,
+                      width: 20,
+                      color: Color(0xFF752376),
                     ),
                     label: 'Dashboard',
                   ),
                   BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      "assets/side nav icons/category-svgrepo-com.svg",
-                      height: 18,
-                      width: 18,
-                      colorFilter: const ColorFilter.mode(
-                          Color(0xFF782572), BlendMode.srcIn),
+                    icon: Image.asset(
+                      "assets/images/content-writing.png",
+                      height: 20,
+                      width: 20,
+                      color: Color(0xFF752376),
                     ),
-                    label: 'Categories',
+                    label: 'Cms',
                   ),
                   BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      "assets/side nav icons/settings-svgrepo-com.svg",
-                      height: 18,
-                      width: 18,
-                      colorFilter: const ColorFilter.mode(
-                          Color(0xFF782572), BlendMode.srcIn),
+                    icon: Image.asset(
+                      "assets/images/user.png",
+                      height: 20,
+                      width: 20,
+                      color: Color(0xFF752376),
                     ),
-                    label: 'Settings',
+                    label: 'Account',
                   ),
                 ],
                 currentIndex: 0, // Set the initial index
@@ -249,11 +289,12 @@ class _UserslistState extends State<Userslist> {
                 showSelectedLabels: true, // Show labels for selected items
                 showUnselectedLabels: true, // Show labels for unselected items
                 selectedLabelStyle: const TextStyle(
-                    fontFamily: 'Lato', // Specify Lato font family
-                    fontWeight: FontWeight.w400, // Bold for selected
-                    color: Color(0xFF505458),
-                    fontSize: 12 // Color for selected label
-                    ),
+                  fontFamily: 'Lato', // Specify Lato font family
+                  fontWeight: FontWeight.w400, // Bold for selected
+                  color: Color(0xFF505458),
+                  fontSize: 12,
+                  // Color for selected label
+                ),
                 unselectedLabelStyle: const TextStyle(
                     fontFamily: 'Lato', // Specify Lato font family
                     color: Color(0xFF505458),
@@ -264,7 +305,7 @@ class _UserslistState extends State<Userslist> {
                   // Handle navigation here
                 },
               )
-            : null, 
+            : null,
       ),
     );
   }
