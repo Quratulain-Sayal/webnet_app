@@ -15,7 +15,7 @@ class _GalleryState extends State<Gallery> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(defaultpadding),
       child: Card(
         elevation: 2.0,
         color: Colors.white,

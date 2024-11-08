@@ -1,7 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:webnet_app/const/constants.dart';
+
 
 class BasicDetails extends StatefulWidget {
   @override
@@ -9,199 +9,197 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
-  bool _isExpanded = false; // To track the expansion state
+  // bool _isExpanded = false; // To track the expansion state
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: 2.0,
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(2),
-        ),
-        child: ExpansionTile(
-          title:  Text(
-            "BASIC DETAILS",
-            style: GoogleFonts.lato(
-              textStyle: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-                fontWeight: FontWeight.bold
-              )
-            )
-          ),
-          trailing: Icon(
-            _isExpanded ? Icons.remove : Icons.add,
-            color: Colors.grey,
-          ),
-          onExpansionChanged: (bool expanded) {
-            setState(() {
-              _isExpanded = expanded;
-            });
-          },
+    double screenWidth = MediaQuery.of(context).size.width;
+    return Card(
+      elevation: 2.0,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.all(defaultpadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Post Title', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
+            Text("BASIC DETAILS",
+                style: GoogleFonts.lato(
+                    textStyle: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold))),
+            SizedBox(
+              height: screenHeight * 0.02,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 160,
+                  child: TextField(
                     decoration: InputDecoration(
-                      label:Text('Enter title'),
+                      labelText: 'Post Title',
+                      hintStyle: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF797979),
+                              fontWeight: FontWeight.w600)),
+                      hintText: 'Enter title',
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.02),
-                  Row(
-                    children: [
-                      Text('Slug',style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)), ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
+                ),
+                SizedBox(width: screenWidth * 0.02),
+                SizedBox(
+                  width: 160,
+                  child: TextField(
                     decoration: InputDecoration(
-                      label: Text('Enter title'),
+                      labelText: 'Slug',
+                      hintStyle: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF797979),
+                              fontWeight: FontWeight.w600)),
+                      hintText: 'Enter title',
                       border: OutlineInputBorder(),
                     ),
                   ),
+                ),
+              ],
+            ),
 
-                  SizedBox(height: screenHeight * 0.02),
+            SizedBox(height: screenHeight * 0.02),
+            Text(
+              'Category',
+              style: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF797979),
+                      fontWeight: FontWeight.w600)),
+            ),
+            SizedBox(
+              height: screenHeight * 0.01,
+            ),
+            CategoryWidget(),
+            SizedBox(height: screenHeight * 0.02),
+            Text(
+              'Brand',
+              style: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF797979),
+                      fontWeight: FontWeight.w600)),
+            ),
+            SizedBox(
+              height: screenHeight * 0.01,
+            ),
+            BrandWidget(),
+            SizedBox(height: screenHeight * 0.02),
 
-                  Text('Category', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                 CategoryWidget(),
-                   
-                 
-                   SizedBox(height: screenHeight * 0.02),
-
-                  Text('Brand', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                 BrandWidget(),
-                   SizedBox(height: screenHeight*0.02),
-                    Text('Short Description', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                   SizedBox(height: screenHeight*0.02),
-                   Text('Description', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                     
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                   SizedBox(height: screenHeight*0.02),
-                   Text('SKU', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
-                    //maxLines: 5,
-                    
-                    decoration: InputDecoration(
-                     labelText: 'SKU',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                   SizedBox(height: screenHeight*0.02),
-                   Text('Unit', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
-                   // maxLines: 5,
-                    decoration: InputDecoration(
-                     labelText: 'eg kg,pcs etc.',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                   SizedBox(height: screenHeight*0.02),
-                   Text('Weight', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
-                   // maxLines: 5,
-                    decoration: InputDecoration(
-                     
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                   SizedBox(height: screenHeight*0.02),
-                   Text('Qunatity', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
-                    //maxLines: 5,
-                    decoration: InputDecoration(
-                     
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                   SizedBox(height: screenHeight*0.02),
-                   Text('Price', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
-                    //maxLines: 5,
-                    decoration: InputDecoration(
-                     
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                   SizedBox(height: screenHeight*0.02),
-                   Text('Discounted Price', style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 14, color: Color(0xFF797979), fontWeight: FontWeight.w600)),),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const TextField(
-                    //maxLines: 5,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                   SizedBox(height: screenHeight*0.02),
-                ],
+            const TextField(
+             
+              decoration: InputDecoration(
+                labelText: 'Short Description',
+                border: OutlineInputBorder(),
               ),
             ),
+            SizedBox(height: screenHeight * 0.02),
+
+            const TextField(
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: 'Description',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: screenHeight * 0.02),
+           Row(
+            children: [
+            const   SizedBox(
+              width: 160,
+                child:  TextField(
+                decoration: InputDecoration(
+                  labelText: 'SKU',
+                  border: OutlineInputBorder(),
+                ),
+                            ),
+              ),
+            SizedBox(width: screenWidth * 0.02),
+            SizedBox(
+              width: 160,
+              child: TextField(
+             
+                decoration: InputDecoration(
+                  labelText: 'Unit',
+                  hintText: 'eg kg,pcs etc.',
+                  hintStyle: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF797979),
+                          fontWeight: FontWeight.w600)),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            ]),
+            SizedBox(height: screenHeight * 0.02),
+            Row(
+              children: [
+                 const SizedBox(
+              width: 160,
+              child:  TextField(
+                // maxLines: 5,
+                decoration: InputDecoration(
+                  labelText: 'Weight',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            SizedBox(width: screenWidth * 0.02),
+
+           const  SizedBox(
+              width: 160,
+              child:  TextField(
+                //maxLines: 5,
+                decoration: InputDecoration(
+                  labelText: 'Qunatity',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+              ],
+            ),
+            SizedBox(height: screenHeight * 0.02),
+           Row(
+            children: [
+              const  SizedBox(
+                width: 160,
+                 child: TextField(
+                               //maxLines: 5,
+                               decoration: InputDecoration(
+                  labelText: 'Price',
+                  border: OutlineInputBorder(),
+                               ),
+                             ),
+               ),
+            SizedBox(width: screenWidth * 0.02),
+            const  SizedBox(
+              width: 160,
+               child: TextField(
+                //maxLines: 5,
+                decoration: InputDecoration(
+                  labelText: 'Discounted Price',
+                  border: OutlineInputBorder(),
+                ),
+                           ),
+             ),
+            ],
+           ),
+          
+            // SizedBox(height: screenHeight * 0.02),
           ],
         ),
       ),
@@ -213,7 +211,6 @@ class CategoryWidget extends StatelessWidget {
   const CategoryWidget({super.key});
 
   @override
-
   Widget build(BuildContext context) {
     final List<String> genderItems = [
       'Category1',
@@ -221,30 +218,32 @@ class CategoryWidget extends StatelessWidget {
     ];
 
     String? selectedValue;
-    
+
     return DropdownButtonFormField2<String>(
-      
       isExpanded: true,
       decoration: InputDecoration(
-       
-        
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
         ),
         // Add more decoration..
       ),
-      hint:  Text(
+      hint: Text(
         'Select Category',
-        style:  GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 16, color: Color(0xFF797979), fontWeight: FontWeight.w300 )),
+        style: GoogleFonts.lato(
+            textStyle: TextStyle(
+                fontSize: 16,
+                color: Color(0xFF797979),
+                fontWeight: FontWeight.w300)),
       ),
-      
       items: genderItems
           .map((item) => DropdownMenuItem<String>(
                 value: item,
                 child: Text(
                   item,
-                  style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black, )),
+                  style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                    color: Colors.black,
+                  )),
                 ),
               ))
           .toList(),
@@ -282,42 +281,43 @@ class CategoryWidget extends StatelessWidget {
     );
   }
 }
+
 class BrandWidget extends StatelessWidget {
   const BrandWidget({super.key});
 
   @override
-
   Widget build(BuildContext context) {
     final List<String> genderItems = [
       'Select Brand',
-      
     ];
 
     String? selectedValue;
-    
+
     return DropdownButtonFormField2<String>(
-      
       isExpanded: true,
       decoration: InputDecoration(
-       
-        
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
         ),
         // Add more decoration..
       ),
-      hint:  Text(
+      hint: Text(
         'Select Brand',
-        style:  GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 16, color: Color(0xFF797979), fontWeight: FontWeight.w300 )),
+        style: GoogleFonts.lato(
+            textStyle: TextStyle(
+                fontSize: 16,
+                color: Color(0xFF797979),
+                fontWeight: FontWeight.w300)),
       ),
-      
       items: genderItems
           .map((item) => DropdownMenuItem<String>(
                 value: item,
                 child: Text(
                   item,
-                  style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black, )),
+                  style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                    color: Colors.black,
+                  )),
                 ),
               ))
           .toList(),

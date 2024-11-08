@@ -10,6 +10,8 @@ class Sliderslist extends StatefulWidget {
 class _SliderslistState extends State<Sliderslist> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      
+    );
   }
 }
